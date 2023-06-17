@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import time
-import Orange
 from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
@@ -16,24 +15,28 @@ attribute_names = [
   "export-administration-act-south-africa"
 ]
 
-df = pd.read_csv("house-votes-84.data", names=attribute_names)
-print(df.shape)
+attribute_names = [x.replace('-', '_') for x in attribute_names]
+
+df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
+print(df2.shape)
+
+
 
 # Replace '?' with NaN
-df.replace('?', np.nan, inplace=True)
+df2.replace('?', np.nan, inplace=True)
 
 # Convert 'y' and 'n' to 1 and 0
-df.replace({'y': 1, 'n': 0}, inplace=True)
+df2.replace({'y': 1, 'n': 0}, inplace=True)
 #df.replace('?', 'unknown', inplace=True)
 
 # Drop rows with missing values
-df.dropna(inplace=True)
-print(df.shape)
+df2.dropna(inplace=True)
+print(df2.shape)
 # Reset the index
-df.reset_index(drop=True, inplace=True)
+df2.reset_index(drop=True, inplace=True)
 
 # Drop the class_name column
-df.drop('class_name', axis=1, inplace=True)
+df = df2.drop('class_name', axis=1, inplace=False)
 
 # Convert all rows to 1 or 0 factors
 df = df.astype('category')
@@ -47,9 +50,8 @@ end = time.time()
 frequent_itemsets.sort_values(by='support', ascending=False, inplace=True)
 print("Time elapsed: ", end - start)
 print(frequent_itemsets.shape)
-print(frequent_itemsets)
-# Filter by support == 0.11637931034482758
-#frequent_itemsets = frequent_itemsets[frequent_itemsets['support'] == 0.11637931034482758]
+#print(frequent_itemsets)
+
 frequent_itemsets.to_csv("frequent_itemsets_apriori.csv", index=False)
 #print(frequent_itemsets)
 # Generate association rules
@@ -66,7 +68,58 @@ from mlxtend.frequent_patterns import fpgrowth
 start = time.time()
 frequent_itemsets = fpgrowth(df, min_support=0.1, use_colnames=True)
 end = time.time()
+print(frequent_itemsets.shape)
 print("Time elapsed: ", end - start)
 frequent_itemsets.sort_values(by='support', ascending=False, inplace=True)
 frequent_itemsets.to_csv("frequent_itemsets_fpgrowth.csv", index=False)
 
+
+# Class Association Rules
+def class_assocation_rule(df, freq_itemsets, class_name, min_confidence):
+    """
+    Get the class association rules.
+
+    Parameters
+    ----------
+    df : pandas DataFrame
+        The dataset.
+    freq_itemsets : pandas DataFrame
+        The frequent itemsets.
+    class_name : str
+        The variable name of the class.
+    min_confidence : float
+        The minimum confidence.
+
+    Returns
+    -------
+    pandas DataFrame
+        The class association rules.
+    """
+    result = []
+    num_rows = df.shape[0]
+    classes = df[class_name].unique()
+    for c in classes:
+        for index, row in freq_itemsets.iterrows():
+            leftside = set(row['itemsets'])
+            rightside = {c}
+            combined = leftside | rightside
+            support = row['support']
+            support_denominator = support * num_rows
+            query_expression = f"{class_name} == '{c}' & "
+            for item in leftside:
+              query_expression = query_expression + item + " == 1 & "
+            query_expression = query_expression[:-2]
+            confidence = len(df.query(query_expression)) / support_denominator
+            if confidence >= min_confidence:
+                result.append({"left":leftside, "right":rightside, "support":support, "confidence": confidence})
+
+    return pd.DataFrame(result)
+
+start = time.time()
+car = class_assocation_rule(df2, frequent_itemsets, "class_name", min_confidence=0.5)
+end = time.time()
+print("Time elapsed: ", end - start)
+# Sort 
+car.sort_values(by='confidence', ascending=False, inplace=True)
+print(car)
+car.to_csv("class_association_rules.csv", index=False)
