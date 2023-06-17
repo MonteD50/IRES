@@ -20,7 +20,27 @@ attribute_names = [x.replace('-', '_') for x in attribute_names]
 df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
 print(df2.shape)
 
-
+df2 = [
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', '?', 'y', 'y', 'y', 'n', 'y'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', '?'],
+    ['democrat', '?', 'y', 'y', '?', 'y', 'y', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'y', 'n', 'n'],
+    ['democrat', 'n', 'y', 'y', 'n', '?', 'y', 'n', 'n', 'n', 'n', 'y', 'n', 'y', 'n', 'n', 'y'],
+    ['democrat', 'y', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'y', '?', 'y', 'y', 'y', 'y'],
+    ['democrat', 'n', 'y', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'y'],
+    ['democrat', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'n', '?', 'y', 'y', 'y'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', '?', '?', 'y', 'y', 'n', 'n', 'y'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'y'],
+    ['democrat', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', '?', '?'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'n', 'n', 'n', 'n', 'n', '?', '?', 'y', 'y', 'n', '?'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'n', 'y', 'y', '?', 'n', '?'],
+    ['democrat', 'n', 'y', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'n', '?', '?'],
+    ['democrat', 'y', 'y', 'y', 'n', 'n', 'y', 'y', 'y', '?', 'y', 'y', '?', 'n', 'n', 'y', '?'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', '?', '?', 'n', '?'],
+    ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'n', 'y', 'y', '?', 'n', '?'],
+    ['democrat', 'y', 'n', 'y', 'n', 'n', 'y', 'n', 'y', '?', 'y', 'y', 'y', '?', 'n', 'n', 'y'],
+    ['democrat', 'y', '?', 'y', 'n', 'n', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', 'n', 'y', 'y']
+]
+df2 = pd.DataFrame(df2, columns=attribute_names)
 
 # Replace '?' with NaN
 df2.replace('?', np.nan, inplace=True)
@@ -34,6 +54,10 @@ df2.dropna(inplace=True)
 print(df2.shape)
 # Reset the index
 df2.reset_index(drop=True, inplace=True)
+
+df2 = df2[["class_name", "handicapped_infants", "water_project_cost_sharing",
+  "adoption_of_the_budget_resolution", "physician_fee_freeze",
+  "el_salvador_aid"]]
 
 # Drop the class_name column
 df = df2.drop('class_name', axis=1, inplace=False)
