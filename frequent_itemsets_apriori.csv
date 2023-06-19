@@ -1,12 +1,26 @@
 support,itemsets
-1.0,frozenset({'water_project_cost_sharing'})
-1.0,frozenset({'el_salvador_aid'})
-1.0,"frozenset({'water_project_cost_sharing', 'el_salvador_aid'})"
-0.5,frozenset({'adoption_of_the_budget_resolution'})
-0.5,frozenset({'physician_fee_freeze'})
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'water_project_cost_sharing'})"
-0.5,"frozenset({'physician_fee_freeze', 'water_project_cost_sharing'})"
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'el_salvador_aid'})"
-0.5,"frozenset({'physician_fee_freeze', 'el_salvador_aid'})"
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'water_project_cost_sharing', 'el_salvador_aid'})"
-0.5,"frozenset({'physician_fee_freeze', 'water_project_cost_sharing', 'el_salvador_aid'})"
+0.8146551724137931,frozenset({'export_administration_act_south_africa_y'})
+0.6551724137931034,frozenset({'synfuels_corporation_cutback_n'})
+0.6422413793103449,frozenset({'religious_groups_in_schools_y'})
+0.6422413793103449,frozenset({'crime_y'})
+0.6293103448275862,frozenset({'duty_free_exports_n'})
+0.5862068965517241,frozenset({'handicapped_infants_n'})
+0.5517241379310345,frozenset({'immigration_y'})
+0.5517241379310345,frozenset({'el_salvador_aid_y'})
+0.5474137931034483,frozenset({'superfund_right_to_sue_y'})
+0.5387931034482759,frozenset({'water_project_cost_sharing_n'})
+0.5387931034482759,"frozenset({'crime_y', 'religious_groups_in_schools_y'})"
+0.5344827586206896,frozenset({'education_spending_n'})
+0.5344827586206896,frozenset({'anti_satellite_test_ban_y'})
+0.5301724137931034,frozenset({'adoption_of_the_budget_resolution_y'})
+0.5301724137931034,"frozenset({'export_administration_act_south_africa_y', 'anti_satellite_test_ban_y'})"
+0.5258620689655172,"frozenset({'export_administration_act_south_africa_y', 'adoption_of_the_budget_resolution_y'})"
+0.521551724137931,"frozenset({'el_salvador_aid_y', 'crime_y'})"
+0.521551724137931,"frozenset({'export_administration_act_south_africa_y', 'synfuels_corporation_cutback_n'})"
+0.5172413793103449,"frozenset({'education_spending_n', 'export_administration_act_south_africa_y'})"
+0.5129310344827587,frozenset({'mx_missile_n'})
+0.5129310344827587,frozenset({'aid_to_nicaraguan_contras_y'})
+0.5129310344827587,frozenset({'physician_fee_freeze_n'})
+0.5129310344827587,"frozenset({'el_salvador_aid_y', 'religious_groups_in_schools_y'})"
+0.5086206896551724,"frozenset({'crime_y', 'duty_free_exports_n'})"
+0.5043103448275862,"frozenset({'export_administration_act_south_africa_y', 'aid_to_nicaraguan_contras_y'})"

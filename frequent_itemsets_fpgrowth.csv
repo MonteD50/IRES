@@ -1,12 +1,21 @@
 support,itemsets
-1.0,frozenset({'el_salvador_aid'})
-1.0,frozenset({'water_project_cost_sharing'})
-1.0,"frozenset({'water_project_cost_sharing', 'el_salvador_aid'})"
-0.5,frozenset({'adoption_of_the_budget_resolution'})
-0.5,frozenset({'physician_fee_freeze'})
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'water_project_cost_sharing'})"
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'el_salvador_aid'})"
-0.5,"frozenset({'adoption_of_the_budget_resolution', 'water_project_cost_sharing', 'el_salvador_aid'})"
-0.5,"frozenset({'physician_fee_freeze', 'water_project_cost_sharing'})"
-0.5,"frozenset({'physician_fee_freeze', 'el_salvador_aid'})"
-0.5,"frozenset({'physician_fee_freeze', 'water_project_cost_sharing', 'el_salvador_aid'})"
+0.9230769230769231,frozenset({'water_project_cost_sharing_y'})
+0.6923076923076923,frozenset({'handicapped_infants_n'})
+0.6923076923076923,"frozenset({'water_project_cost_sharing_y', 'handicapped_infants_n'})"
+0.6923076923076923,frozenset({'religious_groups_in_schools_y'})
+0.6153846153846154,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y'})"
+0.5384615384615384,"frozenset({'water_project_cost_sharing_y', 'crime_y'})"
+0.5384615384615384,frozenset({'crime_y'})
+0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y'})"
+0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'handicapped_infants_n'})"
+0.46153846153846156,"frozenset({'crime_y', 'religious_groups_in_schools_y'})"
+0.46153846153846156,"frozenset({'crime_y', 'handicapped_infants_n'})"
+0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
+0.46153846153846156,"frozenset({'religious_groups_in_schools_y', 'handicapped_infants_n'})"
+0.46153846153846156,frozenset({'crime_n'})
+0.38461538461538464,"frozenset({'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
+0.38461538461538464,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
+0.38461538461538464,"frozenset({'water_project_cost_sharing_y', 'crime_n'})"
+0.3076923076923077,frozenset({'religious_groups_in_schools_n'})
+0.3076923076923077,frozenset({'handicapped_infants_y'})
+0.3076923076923077,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_n'})"

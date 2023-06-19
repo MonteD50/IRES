@@ -1,15 +1,39 @@
 left,right,support,confidence
-{'adoption_of_the_budget_resolution'},{'democrat'},0.5,1.0
-"{'adoption_of_the_budget_resolution', 'water_project_cost_sharing'}",{'democrat'},0.5,1.0
-"{'adoption_of_the_budget_resolution', 'el_salvador_aid'}",{'democrat'},0.5,1.0
-"{'adoption_of_the_budget_resolution', 'water_project_cost_sharing', 'el_salvador_aid'}",{'democrat'},0.5,1.0
-{'physician_fee_freeze'},{'republican'},0.5,1.0
-"{'physician_fee_freeze', 'water_project_cost_sharing'}",{'republican'},0.5,1.0
-"{'physician_fee_freeze', 'el_salvador_aid'}",{'republican'},0.5,1.0
-"{'physician_fee_freeze', 'water_project_cost_sharing', 'el_salvador_aid'}",{'republican'},0.5,1.0
-{'el_salvador_aid'},{'democrat'},1.0,0.5
-{'water_project_cost_sharing'},{'democrat'},1.0,0.5
-"{'water_project_cost_sharing', 'el_salvador_aid'}",{'democrat'},1.0,0.5
-{'el_salvador_aid'},{'republican'},1.0,0.5
-{'water_project_cost_sharing'},{'republican'},1.0,0.5
-"{'water_project_cost_sharing', 'el_salvador_aid'}",{'republican'},1.0,0.5
+{'handicapped_infants_y'},{'democrat'},0.3076923076923077,1.0
+{'crime_n'},{'democrat'},0.46153846153846156,0.8333333333333334
+"{'water_project_cost_sharing_y', 'crime_n'}",{'democrat'},0.38461538461538464,0.8
+"{'water_project_cost_sharing_y', 'crime_y', 'handicapped_infants_n'}",{'republican'},0.46153846153846156,0.6666666666666666
+{'religious_groups_in_schools_y'},{'democrat'},0.6923076923076923,0.6666666666666666
+"{'crime_y', 'handicapped_infants_n'}",{'republican'},0.46153846153846156,0.6666666666666666
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_y'}",{'democrat'},0.6153846153846154,0.625
+"{'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'republican'},0.38461538461538464,0.6
+"{'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'republican'},0.38461538461538464,0.6
+{'water_project_cost_sharing_y'},{'democrat'},0.9230769230769231,0.5833333333333334
+{'crime_y'},{'republican'},0.5384615384615384,0.5714285714285714
+"{'water_project_cost_sharing_y', 'crime_y'}",{'republican'},0.5384615384615384,0.5714285714285714
+{'handicapped_infants_n'},{'republican'},0.6923076923076923,0.5555555555555556
+"{'water_project_cost_sharing_y', 'handicapped_infants_n'}",{'republican'},0.6923076923076923,0.5555555555555556
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_n'}",{'republican'},0.3076923076923077,0.5
+"{'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'democrat'},0.46153846153846156,0.5
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'democrat'},0.46153846153846156,0.5
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_n'}",{'democrat'},0.3076923076923077,0.5
+{'religious_groups_in_schools_n'},{'republican'},0.3076923076923077,0.5
+"{'crime_y', 'religious_groups_in_schools_y'}",{'democrat'},0.46153846153846156,0.5
+"{'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'republican'},0.46153846153846156,0.5
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'republican'},0.46153846153846156,0.5
+"{'crime_y', 'religious_groups_in_schools_y'}",{'republican'},0.46153846153846156,0.5
+"{'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y'}",{'republican'},0.46153846153846156,0.5
+{'religious_groups_in_schools_n'},{'democrat'},0.3076923076923077,0.5
+"{'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y'}",{'democrat'},0.46153846153846156,0.5
+{'handicapped_infants_n'},{'democrat'},0.6923076923076923,0.4444444444444444
+"{'water_project_cost_sharing_y', 'handicapped_infants_n'}",{'democrat'},0.6923076923076923,0.4444444444444444
+{'crime_y'},{'democrat'},0.5384615384615384,0.42857142857142855
+"{'water_project_cost_sharing_y', 'crime_y'}",{'democrat'},0.5384615384615384,0.42857142857142855
+{'water_project_cost_sharing_y'},{'republican'},0.9230769230769231,0.4166666666666667
+"{'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'democrat'},0.38461538461538464,0.4
+"{'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'}",{'democrat'},0.38461538461538464,0.4
+"{'water_project_cost_sharing_y', 'religious_groups_in_schools_y'}",{'republican'},0.6153846153846154,0.375
+"{'water_project_cost_sharing_y', 'crime_y', 'handicapped_infants_n'}",{'democrat'},0.46153846153846156,0.3333333333333333
+"{'crime_y', 'handicapped_infants_n'}",{'democrat'},0.46153846153846156,0.3333333333333333
+{'religious_groups_in_schools_y'},{'republican'},0.6923076923076923,0.3333333333333333
+"{'water_project_cost_sharing_y', 'crime_n'}",{'republican'},0.38461538461538464,0.2
