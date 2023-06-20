@@ -6,15 +6,15 @@ support,itemsets
 0.6153846153846154,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y'})"
 0.5384615384615384,"frozenset({'water_project_cost_sharing_y', 'crime_y'})"
 0.5384615384615384,frozenset({'crime_y'})
-0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y'})"
-0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'handicapped_infants_n'})"
-0.46153846153846156,"frozenset({'crime_y', 'religious_groups_in_schools_y'})"
-0.46153846153846156,"frozenset({'crime_y', 'handicapped_infants_n'})"
+0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'crime_y'})"
+0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'handicapped_infants_n', 'crime_y'})"
+0.46153846153846156,"frozenset({'religious_groups_in_schools_y', 'crime_y'})"
+0.46153846153846156,"frozenset({'handicapped_infants_n', 'crime_y'})"
 0.46153846153846156,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
 0.46153846153846156,"frozenset({'religious_groups_in_schools_y', 'handicapped_infants_n'})"
 0.46153846153846156,frozenset({'crime_n'})
-0.38461538461538464,"frozenset({'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
-0.38461538461538464,"frozenset({'water_project_cost_sharing_y', 'crime_y', 'religious_groups_in_schools_y', 'handicapped_infants_n'})"
+0.38461538461538464,"frozenset({'religious_groups_in_schools_y', 'handicapped_infants_n', 'crime_y'})"
+0.38461538461538464,"frozenset({'water_project_cost_sharing_y', 'religious_groups_in_schools_y', 'handicapped_infants_n', 'crime_y'})"
 0.38461538461538464,"frozenset({'water_project_cost_sharing_y', 'crime_n'})"
 0.3076923076923077,frozenset({'religious_groups_in_schools_n'})
 0.3076923076923077,frozenset({'handicapped_infants_y'})

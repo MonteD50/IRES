@@ -65,7 +65,6 @@ df_without_class = df2.drop('class_name', axis=1, inplace=False)
 
 df_encoded = pd.get_dummies(df_without_class)
 
-
 #df2 = df2[["class_name", "handicapped_infants", "water_project_cost_sharing",
 #  "adoption_of_the_budget_resolution", "physician_fee_freeze",
 #  "el_salvador_aid"]]
@@ -103,10 +102,11 @@ end = time.time()
 print(frequent_itemsets.shape)
 print("Time elapsed: ", end - start)
 frequent_itemsets.sort_values(by='support', ascending=False, inplace=True)
-frequent_itemsets.to_csv("frequent_itemsets_fpgrowth.csv", index=False)
+#frequent_itemsets.to_csv("frequent_itemsets_fpgrowth.csv", index=False)
 
 # Add class_name to df_encoded
 df_encoded['class_name'] = df2['class_name']
+#df_encoded.to_csv("house-votes-84-encoded.csv", index=False)
 
 # Class Association Rules
 def class_assocation_rule(df_og, freq_itemsets, class_name, min_confidence):
