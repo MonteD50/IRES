@@ -20,7 +20,7 @@ attribute_names = [x.replace('-', '_') for x in attribute_names]
 df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
 print(df2.shape)
 
-
+"""
 df2 = [
     ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'y', '?', 'y', 'y', 'y', 'n', 'y'],
     ['republican', 'n', 'y', 'n', 'y', 'y', 'y', 'n', 'n', 'n', 'n', 'n', 'y', 'y', 'y', 'n', '?'],
@@ -44,7 +44,7 @@ df2 = [
 df2 = pd.DataFrame(df2, columns=attribute_names)
 
 df2 = df2[["class_name", "handicapped_infants", "water_project_cost_sharing", "religious_groups_in_schools", "crime"]]
-
+"""
 print(df2.shape)
 
 # Replace '?' with NaN
@@ -64,6 +64,8 @@ df2.reset_index(drop=True, inplace=True)
 df_without_class = df2.drop('class_name', axis=1, inplace=False)
 
 df_encoded = pd.get_dummies(df_without_class)
+print(df_encoded.columns)
+1/0
 
 #df2 = df2[["class_name", "handicapped_infants", "water_project_cost_sharing",
 #  "adoption_of_the_budget_resolution", "physician_fee_freeze",
@@ -151,10 +153,10 @@ def class_assocation_rule(df_og, freq_itemsets, class_name, min_confidence):
 
 start = time.time()
 
-car = class_assocation_rule(df_encoded, frequent_itemsets, "class_name", min_confidence=0.2)
+car = class_assocation_rule(df_encoded, frequent_itemsets, "class_name", min_confidence=0.4)
 end = time.time()
 print("Time elapsed: ", end - start)
 # Sort 
 car.sort_values(by='confidence', ascending=False, inplace=True)
-print(car)
+print(car.shape)
 car.to_csv("class_association_rules.csv", index=False)
