@@ -9,36 +9,76 @@ import numpy as np
 from kmodes.kmodes import KModes
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("binary_distance_{'democrat'}.csv", index_col=0)
-# df = pd.read_csv("similarity_matrix_{'republican'}.csv", index_col=0)  # Uncomment this line if needed
+"""
+TODO: 
+Spar
+cmar
+mac
+all class association rule mining algorithms. Run and compare
+"""
 
+df = pd.read_csv("binary_distance_{'republican'}.csv", index_col=0)
+# df = pd.read_csv("similarity_matrix_{'republican'}.csv", index_col=0)  # Uncomment this line if needed
+df = df.astype(bool)
 values = df.to_numpy()
 
 cost = []
 K = range(2, 10)
 
-for k in K:
-    kmode = KModes(n_clusters=k, init="Huang", n_init=5, verbose=1)
-    kmode.fit_predict(values)
-    cost.append(kmode.cost_)
+from kmodes.kmodes import KModes
+from sklearn.metrics import silhouette_score
 
-plt.plot(K, cost, 'x-')
+# Assuming your binary data is stored in a pandas DataFrame called df
+
+# Define a range of cluster numbers to evaluate
+min_clusters = 2
+max_clusters = 10
+K = range(min_clusters, max_clusters+1)
+# Initialize variables to store the best silhouette score and corresponding cluster number
+best_score = -1
+best_clusters = -1
+
+costs = []
+silhouette_score_ = []
+# Iterate through different cluster numbers and calculate the silhouette score
+for k in range(min_clusters, max_clusters+1):
+    km = KModes(n_clusters=k, init='Huang', n_init=5, verbose=0)
+    clusters = km.fit_predict(df)
+    score = silhouette_score(df, clusters, metric='matching')
+    cost = km.cost_
+    costs.append(cost)
+    silhouette_score_.append(score)
+    
+    # Check if the current score is better than the previous best score
+    if score > best_score:
+        best_score = score
+        best_clusters = k
+
+# Print the best number of clusters and corresponding silhouette score
+print("Best number of clusters:", best_clusters)
+print("Silhouette score:", best_score)
+
+
+plt.plot(K, costs, 'x-')
 plt.xlabel('Number of clusters')
 plt.ylabel('Cost')
 plt.title('Elbow Curve')
 plt.show()
 
-# Fit KModes with the optimal number of clusters
-optimal_k = np.argmin(cost) + 1
-kmode = KModes(n_clusters=optimal_k, init="random", n_init=5, verbose=1)
+plt.plot(K, silhouette_score_, 'x-')
+plt.xlabel('Number of clusters')
+plt.ylabel('Silhouette Score')
+plt.title('Silhouette Score Curve')
+plt.show()
+
+# Fit KModes with the optimal number of clustersz
+kmode = KModes(n_clusters=best_clusters, init="random", n_init=5, verbose=1)
 clusters = kmode.fit_predict(values)
 
 # Get the cluster centers
 cluster_centers = kmode.cluster_centroids_
 
-print(kmode.labels_)
-
-
+labels = kmode.labels_.tolist()
 """
 max_clusters = 10
 max_ch = 0
