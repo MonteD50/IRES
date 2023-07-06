@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn import metrics
-
+from scipy.spatial.distance import hamming
 import pandas as pd
 import numpy as np
 from kmodes.kmodes import KModes
@@ -29,7 +29,7 @@ from kmodes.kmodes import KModes
 from sklearn.metrics import silhouette_score
 
 # Assuming your binary data is stored in a pandas DataFrame called df
-
+"""
 # Define a range of cluster numbers to evaluate
 min_clusters = 2
 max_clusters = 10
@@ -70,15 +70,46 @@ plt.xlabel('Number of clusters')
 plt.ylabel('Silhouette Score')
 plt.title('Silhouette Score Curve')
 plt.show()
+"""
 
 # Fit KModes with the optimal number of clustersz
-kmode = KModes(n_clusters=best_clusters, init="random", n_init=5, verbose=1)
+kmode = KModes(n_clusters=2, init="random", n_init=5, verbose=0)
 clusters = kmode.fit_predict(values)
 
 # Get the cluster centers
 cluster_centers = kmode.cluster_centroids_
+cluster_centers_df = pd.DataFrame(cluster_centers, columns=df.columns)
 
 labels = kmode.labels_.tolist()
+
+# Add labels to the dataframe
+df['cluster'] = labels
+
+def calc_hamming(one, two):
+    one = one.drop(labels=['cluster']).values
+    return hamming(one, two)
+
+# For each row in df, calculate hammings distance from the cluster center
+df['distance'] = df.apply(lambda row: calc_hamming(row, cluster_centers[row['cluster']]), axis=1)
+
+print(df)
+print(df.columns)
+
+
+from sklearn.decomposition import PCA
+pca = PCA(2)
+
+# Turn the dummified df into two columns with PCA
+plot_columns = pca.fit_transform(df)
+
+# Plot based on the two dimensions, and shade by cluster label
+plt.scatter(x=plot_columns[:,1], y=plot_columns[:,0], c=df["cluster"], s=30)
+plt.show()
+
+# Save the dataframe as a csv file
+#df.to_csv("kmodes_distance_{'republican'}.csv")
+
+
 """
 max_clusters = 10
 max_ch = 0

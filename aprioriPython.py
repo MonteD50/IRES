@@ -64,6 +64,7 @@ df2.reset_index(drop=True, inplace=True)
 df_without_class = df2.drop('class_name', axis=1, inplace=False)
 
 df_encoded = pd.get_dummies(df_without_class)
+df_encoded.to_csv("og_encoded.csv")
 print(df_encoded.columns)
 1/0
 
