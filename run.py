@@ -116,7 +116,8 @@ def cross_validation(data_og, data_encoded, labels, num_folds=10):
         print("Accuracy:", accuracy, "for fold", fold)
 
     mean_accuracy = np.mean(accuracy_scores)
-    print("CV Accuracy:", mean_accuracy)
+    sd_accuracy = np.std(accuracy_score)
+    print("CV Accuracy:", mean_accuracy, "CV Std:", sd_accuracy)
 
 cross_validation(df2, df_encoded, target_class)
 
