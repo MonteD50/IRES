@@ -107,7 +107,7 @@ plt.scatter(x=plot_columns[:,1], y=plot_columns[:,0], c=df["cluster"], s=30)
 plt.show()
 
 # Save the dataframe as a csv file
-#df.to_csv("kmodes_distance_{'republican'}.csv")
+df.to_csv("kmodes_distance_{'republican'}.csv")
 
 
 """

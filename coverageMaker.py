@@ -30,6 +30,11 @@ for cluster in unique_clusters:
     # Sort by coverage
     clustered_rules_cluster = clustered_rules_cluster.sort_values(by=['coverage'], ascending=False)
 
+    # Sort by distance where smallest distance is first
+    clustered_rules_cluster_distance = clustered_rules_cluster.sort_values(by=['distance'], ascending=True)
+
+    smallest_distance = clustered_rules_cluster.iloc[0]['distance']
+
 
     print(clustered_rules_cluster, "\n")
 
