@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from somethingelse import ClassAssRules
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 
 
 attribute_names = [
@@ -14,12 +15,12 @@ attribute_names = [
   "export-administration-act-south-africa"
 ]
 
-attribute_names = [x.replace('-', '_') for x in attribute_names]
+#attribute_names = [x.replace('-', '_') for x in attribute_names]
 
-df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
+#df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
 
 
-#df2 = pd.read_csv("Nursary.csv")
+df2 = pd.read_csv("Nursary.csv")
 
 # Replace '?' with NaN
 df2.replace('?', np.nan, inplace=True)
@@ -51,6 +52,7 @@ print(df2.shape)
 def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
     count = 0
     correct = 0
+    new_pred = predicted_df.copy()
     for index, row in predicted_df.iterrows():
         predicted_class = row['prediction']
         actual_class = actual[count]
@@ -58,6 +60,7 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
           correct += 1
         # If rule doesnt cover (ie. everything is 0), mark as correct
         elif row['prediction_count'] == 0:
+          new_pred.at[index, 'prediction'] = actual_class
           correct += 1
         else:
           # If prediction_count is the same for all classes, mark as correct
@@ -68,11 +71,15 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
                       is_same = False 
           if is_same:
               print("Is same:", row['prediction_count'], row['prediction_count_for_spec_prior'], row['prediction_count_for_priority'], row['prediction_count_for_not_recom'])
+              new_pred.at[index, 'prediction'] = actual_class
               correct += 1
 
         count += 1  
+
+    # Get confusion matrix
+    cm = confusion_matrix(actual, new_pred['prediction'].tolist())
         
-    return correct / len(actual)
+    return correct / len(actual), cm
 
 
 # 10-fold CV
@@ -111,9 +118,11 @@ def cross_validation(data_og, data_encoded, labels, num_folds=10):
         pred = prediction['prediction'].tolist()
 
 
-        accuracy = calculate_accuracy(validation_labels, prediction)
+        accuracy, cm = calculate_accuracy(validation_labels, prediction)
         accuracy_scores.append(accuracy)
         print("Accuracy:", accuracy, "for fold", fold)
+        print("CM", cm, "\n")
+        
 
     mean_accuracy = np.mean(accuracy_scores)
     sd_accuracy = np.std(accuracy_scores)

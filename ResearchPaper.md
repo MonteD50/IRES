@@ -71,8 +71,8 @@ kmodes is partitional clustering
 7/10/2023 Meeting Notes:
 - TODO:
     - get 1 rule from closest to cluster center and 2 rules from coverage
-    - FINISH: abstract, intro/related work, Section 3.2
-    - FINISH: run some expirements and find 4 datasets from Kaggle
+    - DONE: abstract, intro/related work, Section 3.2
+    - ~: run some expirements and find 4 datasets from Kaggle
 
 
 - Title: A compact associative classification model using K-modes clustering with rule representations by coverage. 
@@ -106,3 +106,20 @@ kmodes is partitional clustering
 
 - LATER:
     - run SPAR, CMAR, MAC and put in results
+
+
+7/11/2023 Meeting Notes:
+- Intro:
+    - Right in more detail about the entire steps of the models. Jamol will write this
+
+- Methadology:
+    - Add a verbal description of kmodes algorithm
+    - Algorithms:
+        - DONE: Kmodes
+        - DONE: Optimal # of clustering
+        - Final model
+
+TODO:
+    - Instead of FURIA replace with SPAR and add CMAR, MAC in related works
+    - Run on datasets + 4 Kaggle datasets
+    - Add precision, recall, f1 score, and accuracy/std to results
