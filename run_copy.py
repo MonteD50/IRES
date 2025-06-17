@@ -5,37 +5,52 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 
 
-attribute_names = [
-  "class_name", "handicapped-infants", "water-project-cost-sharing",
-  "adoption-of-the-budget-resolution", "physician-fee-freeze",
-  "el-salvador-aid", "religious-groups-in-schools", "anti-satellite-test-ban",
-  "aid-to-nicaraguan-contras", "mx-missile", "immigration",
-  "synfuels-corporation-cutback", "education-spending",
-  "superfund-right-to-sue", "crime", "duty-free-exports",
-  "export-administration-act-south-africa"
-]
+#attribute_names = [
+#  "class_name", "handicapped-infants", "water-project-cost-sharing",
+#  "adoption-of-the-budget-resolution", "physician-fee-freeze",
+#  "el-salvador-aid", "religious-groups-in-schools", "anti-satellite-test-ban",
+#  "aid-to-nicaraguan-contras", "mx-missile", "immigration",
+#  "synfuels-corporation-cutback", "education-spending",
+#  "superfund-right-to-sue", "crime", "duty-free-exports",
+#  "export-administration-act-south-africa"
+#]
+
+#attribute_names = [
+#  "a1", "a2", "a3", "a4", "a5", "a6", "b1",
+#  "b2", "b3", "b4", "b5", "b6", "c1", "c2", "c3","c4", "c5",
+#  "c6", "d1", "d2", "d3", "d4", "d5", "d6", "e1", "e2",
+#  "e3", "e4", "e5", "e6", "f1", "f2", "f3", "f4", "f5",
+#  "f6", "g1", "g2", "g3", "g4", "g5", "g6", "class_name"
+#]
 
 #attribute_names = [x.replace('-', '_') for x in attribute_names]
 
-#df2 = pd.read_csv("house-votes-84.data", names=attribute_names)
+#df2 = pd.read_csv("connect_4.csv", names=attribute_names)
 
+df2 = pd.read_csv("diabetes_data.csv")
 
-df2 = pd.read_csv("Nursary.csv")
+# Replace all - column names with underscore
+df2.columns = df2.columns.str.replace('-', '_')
 
 # Replace '?' with NaN
-df2.replace('?', np.nan, inplace=True)
+#df2.replace('?', np.nan, inplace=True)
+
+# Convert all values to string type
+df2 = df2.astype(str)
 
 df2.dropna(inplace=True)
 
 # Reset the index
 df2.reset_index(drop=True, inplace=True)
 
+
 # Drop the class_name column
+#df2 = df2.drop('id', axis=1, inplace=False)
 df_without_class = df2.drop('class_name', axis=1, inplace=False)
 df_encoded = pd.get_dummies(df_without_class)
 
-
 target_class = df2['class_name'].tolist()
+
 
 print(df2.shape)
 
@@ -58,6 +73,7 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
         actual_class = actual[count]
         if predicted_class == actual_class:
           correct += 1
+      
         # If rule doesnt cover (ie. everything is 0), mark as correct
         elif row['prediction_count'] == 0:
           new_pred.at[index, 'prediction'] = actual_class
@@ -70,10 +86,10 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
                   if row[col] != row['prediction_count']:
                       is_same = False 
           if is_same:
-              print("Is same:", row['prediction_count'], row['prediction_count_for_spec_prior'], row['prediction_count_for_priority'], row['prediction_count_for_not_recom'])
+              #print("Is same:", row['prediction_count'], row['prediction_count_for_spec_prior'], row['prediction_count_for_priority'], row['prediction_count_for_not_recom'])
               new_pred.at[index, 'prediction'] = actual_class
               correct += 1
-
+      
         count += 1  
 
     # Get confusion matrix
@@ -86,7 +102,7 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
 def cross_validation(data_og, data_encoded, labels, num_folds=10):
     fold_size = len(data_encoded) // num_folds
     accuracy_scores = []
-
+    
     for fold in range(num_folds):
         validation_data_encoded = data_encoded.iloc[fold*fold_size:(fold+1)*fold_size]
 
@@ -104,20 +120,39 @@ def cross_validation(data_og, data_encoded, labels, num_folds=10):
         classAssRules = ClassAssRules(train_data_og, train_data_encoded, 
                                       train_labels, 'class_name', 
                                       min_support = 0.01, 
-                                      min_confidence = 0.5, 
+                                      min_confidence = 0.6, 
                                       max_rules = 1000, 
                                       get_top_coverage = 3, 
-                                      num_clusters = {'spec_prior': 13, 'priority': 13, 'not_recom': 14, 'very_recom': 2, 'recommend': 1},
+                                      # Abalone- final: 
+                                      # num_clusters = {'young': 6, 'old_age': 6, 'medium_age': 6},
+                                      # Laptop
+                                      #num_clusters= {"Low": 5, "High": 5, "Mid_Range": 5},
+                                      # Airplane
+                                      #num_clusters={"not": 50, "satisfied": 50},
+                                      # Tic-Tac-Toe
+                                      #num_clusters={"positive": 4, "negative": 4},
+                                      # Car Evn
+                                      #num_clusters={'unacc': 10, 'acc': 10, 'good': 10, 'vgood': 10},
+                                      # Nursary
+                                      #num_clusters = {'not_recom': 22, 'priority': 22, 'spec_prior': 22, 'very_recom': 22, 'recommend': 22},
+                                      # Airline Reviews
+                                      #num_clusters={'no': 4, 'yes': 4},
+                                      # Diabetes
+                                      num_clusters={'yes': 10, 'no': 10},
                                       graph = False,
                                       method = 'kmodes')
         classAssRules.run()
+
+        num_rules = 0
+        for class_labels in classAssRules.rules:
+            num_rules += len(classAssRules.rules[class_labels])
 
         prediction = classAssRules.predict(validation_data_encoded)
 
         # Calculate accuracy
         pred = prediction['prediction'].tolist()
 
-
+        print("Num rules:", num_rules)
         accuracy, cm = calculate_accuracy(validation_labels, prediction)
         accuracy_scores.append(accuracy)
         print("Accuracy:", accuracy, "for fold", fold)

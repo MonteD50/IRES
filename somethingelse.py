@@ -25,7 +25,8 @@ class ClassAssRules:
                  max_clusters = 10,
                  num_clusters = None,
                  graph = True,
-                 method = 'kmodes'):
+                 method = 'kmodes',
+                 cars = None):
         
         self.df_og = df_og
         self.df_encoded = df_encoded
@@ -39,6 +40,7 @@ class ClassAssRules:
         self.max_clusters = max_clusters
         self.graph = graph
         self.method = method
+        self.cars = cars # csv file of prior made class association rules
 
         # Num clusters should be a dictionary of {class_name: num clusters} or None
         self.num_clusters = num_clusters
@@ -80,7 +82,10 @@ class ClassAssRules:
         self.rules = {}
         # ================== Generate class association rules ===============
         print("Starting cars")
-        self._generate_cars()
+        if self.cars is not None:
+            self.car = pd.read_csv(self.cars)
+        else:
+            self._generate_cars()
 
         # ================== Generate distances ======================
         print("Generating distnaces")
@@ -197,8 +202,8 @@ class ClassAssRules:
                 # Filter the og dataset
                 filtered_df = self.df_encoded.query(filtered_query)
 
-                coverage = len(filtered_df.index) 
-                
+                coverage = len(filtered_df.index)
+
                 clustered_rules_cluster.loc[index, "coverage"] = coverage
 
             # Sort by coverage and distance
@@ -215,13 +220,15 @@ class ClassAssRules:
             while current_num_coverage < self.get_top_coverage and start_index < len(clustered_rules_cluster.index):
                 current_row = clustered_rules_cluster.iloc[start_index]
                 prior_row = clustered_rules_cluster.iloc[start_index-1]
+
+                start_index += 1
                 # Get all columns that are true in row
                 true_columns_current = current_row[current_row == True].index.tolist()
                 true_columns_prior = prior_row[prior_row == True].index.tolist()
 
                 filtered_query_current = " == 1 & ".join(true_columns_current) + " == 1"
                 filtered_query_prior = " == 1 & ".join(true_columns_prior) + " == 1"
-                
+
                 # Filter the og dataset
                 filtered_df_current = self.df_encoded.query(filtered_query_current).index.tolist()
                 filtered_df_prior = self.df_encoded.query(filtered_query_prior).index.tolist()
@@ -232,9 +239,10 @@ class ClassAssRules:
 
                 # Check if the lists are the same
                 if filtered_df_current == filtered_df_prior:
+
                     continue
                 else:
-                    # CHeck if the rule is unique based on coverage to every 
+                    # Check if the rule is unique based on coverage to every
                     # prior rule that has been made
                     is_unique = True
                     for rule_ in result:
@@ -245,16 +253,17 @@ class ClassAssRules:
                         if filtered_df_current == filtered_df__prior_rule:
                             is_unique = False
                             break
-                    
+
                     if is_unique:
                         # Store the rule
                         res.append(true_columns_current)
                         current_num_coverage += 1
 
-                start_index += 1
+                
             result += res
 
         return result
+
 
 
     def _cluster_kmodes(self, distance_matrix, num_clusters = None):
@@ -267,22 +276,25 @@ class ClassAssRules:
             K = range(min_clusters, self.max_clusters+1)
             # Initialize variables to store the best silhouette score and corresponding cluster number
             best_score = -1
-            best_clusters = -1
+            best_clusters = 2
             costs = []
             silhouette_score_ = []
             # Iterate through different cluster numbers and calculate the silhouette score
             for k in range(min_clusters, self.max_clusters+1):
-                km = KModes(n_clusters=k, init='Huang', n_init=5, verbose = 0)
-                clusters = km.fit_predict(df)
-                score = silhouette_score(df, clusters, metric='matching')
-                cost = km.cost_
-                costs.append(cost)
-                silhouette_score_.append(score)
-                
-                # Check if the current score is better than the previous best score
-                if score > best_score:
-                    best_score = score
-                    best_clusters = k
+                try:
+                    km = KModes(n_clusters=k, init='Huang', n_init=5, verbose = 0)
+                    clusters = km.fit_predict(df)
+                    score = silhouette_score(df, clusters, metric='matching')
+                    cost = km.cost_
+                    costs.append(cost)
+                    silhouette_score_.append(score)
+                    
+                    # Check if the current score is better than the previous best score
+                    if score > best_score:
+                        best_score = score
+                        best_clusters = k
+                except Exception as e:
+                    print("Error in optimal clusters kmodes", str(e))
 
             # Print the best number of clusters and corresponding silhouette score
             print("Best number of clusters:", best_clusters)
@@ -304,19 +316,25 @@ class ClassAssRules:
         else:
             best_clusters = num_clusters
 
-        # Fit KModes with the optimal number of clustersz
-        kmode = KModes(n_clusters=best_clusters, init="random", n_init=5, verbose=0)
-        clusters = kmode.fit_predict(values)
+        # Fit KModes with the optimal number of clusters
+        try:
+            kmode = KModes(n_clusters=best_clusters, init="random", n_init=5, verbose=0)
+            clusters = kmode.fit_predict(values)
+    
+            cluster_centers = kmode.cluster_centroids_
 
-        cluster_centers = kmode.cluster_centroids_
+            labels = kmode.labels_.tolist()
 
-        labels = kmode.labels_.tolist()
+            # Add labels to the dataframe
+            df['cluster'] = labels
 
-        # Add labels to the dataframe
-        df['cluster'] = labels
+            # For each row in df, calculate hammings distance from the cluster center
+            df['distance'] = df.apply(lambda row: self._calc_hamming(row, cluster_centers[row['cluster']]), axis=1)
 
-        # For each row in df, calculate hammings distance from the cluster center
-        df['distance'] = df.apply(lambda row: self._calc_hamming(row, cluster_centers[row['cluster']]), axis=1)
+        except Exception as e:
+            print("Error here", str(e))
+            df['cluster'] = 0
+            df['distance'] = 0
 
         return df
     
@@ -382,11 +400,14 @@ class ClassAssRules:
 
         self.distances = {}
         for class_name in unique_right:
+            # Convert to set
+            #class_name = eval(class_name)
             df_class = self.car[self.car['right'] == class_name]
             res = pd.DataFrame(columns = self.variables)
             # Loop through df_class
             for index, row in df_class.iterrows():
                 left = row['left']
+                #left = eval(left)
                 res_row = {}
                 for variable in self.variables:
                     if variable in left:
@@ -397,19 +418,22 @@ class ClassAssRules:
                 left = str(left)
                 row_series = pd.Series(res_row, name = left)
                 res = res.append(row_series, ignore_index = False)
-
+            
             self.distances[class_name] = res
+            
 
     def _generate_cars(self):
         # Generate frequent itemsets
         frequent_itemsets = fpgrowth(self.df_encoded, 
                                      min_support=self.min_support, 
                                      use_colnames=True)
+        
+        print("ok")
  
         frequent_itemsets.sort_values(by='support', ascending=False, inplace=True)
 
         frequent_itemsets = frequent_itemsets.head(self.max_rules)
-
+        
         # Add class_name to df_encoded
         self.df_encoded['class_name'] = self.target_class
 
@@ -445,8 +469,11 @@ class ClassAssRules:
         """
         result = []
         num_rows = df_og.shape[0]
+
         classes = df_og[class_name].unique()
         for c in classes:
+            #c = int(c) # Temp only for dna
+            print(c, len(freq_itemsets))
             for index, row in freq_itemsets.iterrows():
                 leftside = set(row['itemsets'])
                 rightside = {c}
@@ -454,10 +481,13 @@ class ClassAssRules:
                 support = row['support']
                 support_denominator = support * num_rows
                 query_expression = f"{class_name} == '{c}' & "
+                #print(leftside)
                 for item in leftside:
                     query_expression = query_expression + item + " == 1 & "
                 query_expression = query_expression[:-2]
+                #print(query_expression)
                 confidence = len(df_og.query(query_expression)) / support_denominator
+                
                 if confidence >= min_confidence:
                     result.append({"left":leftside, "right":rightside, "support":support, "confidence": confidence})
 

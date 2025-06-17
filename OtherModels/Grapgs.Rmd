@@ -1,0 +1,34 @@
+---
+title: "Graph"
+author: "Monte Davityan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(ggplot2)
+
+# Create the dataset
+model <- c("DTNB", "DT", "C4.5", "CPAR", "CMAR", "CBA", "SA", "Ours")
+accuracy <- c(80, 72.6, 81.2, 82.7, 82.1, 80.8, 82, 73.1)
+num_rules <- c(339.75, 398.4, 119.9, 43.6, 1326.8, 78.25, 110.9, 19.5)
+
+df <- data.frame(Model = model,
+                 Accuracy = accuracy,
+                 Rules = num_rules)
+
+# Create the bar graph
+ggplot(df, aes(x = Model)) +
+  geom_bar(aes(y = Accuracy, fill = "Accuracy"), stat = "identity", position = "dodge") +
+  geom_bar(aes(y = Rules, fill = "Number of Rules"), stat = "identity", position = "dodge") +
+  labs(x = "Model", y = "Value") +
+  scale_fill_manual(values = c("Accuracy" = "blue", "Number of Rules" = "red")) +
+  theme_minimal()
+
+```
+

@@ -1,5 +1,6 @@
 Reasearch Paper
 
+
 TODO:
 - cite clustering based paper, kmodes, silhouette score 
 
@@ -123,3 +124,88 @@ TODO:
     - Instead of FURIA replace with SPAR and add CMAR, MAC in related works
     - Run on datasets + 4 Kaggle datasets
     - Add precision, recall, f1 score, and accuracy/std to results
+
+
+7/13/2023 Meeting Notes:
+TODO:
+    - fix references + add references + rephrasre related work
+    - Run on all datasets + 4 Kaggle
+    - Run SPAR, CMAR, CBA
+    - Add SPAR, CMAR, and CBA (is in literature review in PhD thesis) to related works
+    - Add more to intro (one more paragraph on explaining the model in general)
+    - Read + edit distance metric part
+    - For table of results: Remove fr, pt and rdr and SPAR, CMAR, and our method
+    - Rephrase final associative rule classifier
+    - Remove tightness in related works
+
+    Jonathan:
+        - Add SPAR, CMAR, and CBA (is in literature review in PhD thesis) to related works
+        - Add more to intro (one more paragraph on explaining the model in general)
+        - Remove tightness in related works
+
+    Charlie:
+        - fix references + add references + rephrasre related work
+        - find three more datasets
+
+    Monte:
+        - Run on all datasets + 4 Kaggle (need to do for 4 Kaggle, connect4, car evn, chess)
+        - DONE: Run SPAR, CMAR, CBA (except for connect4)
+        - DONE: Read + edit distance metric part
+
+    After:
+        - For table of results: Remove fr, pt and rdr and add SPAR, CMAR, and our method
+        - Rephrase final associative rule classifier
+
+
+
+Meeting Notes 7/13/2023:
+    - TODO:
+        - 2 Kaggle datasets + (failed)try 2 default datasets run
+            - DONE: rerun mushroom on non-cheating
+        - DONE: Add results to Table 2, 3
+        - DONE: in related works in "polite way" say to the best of our knowledge since not much related work to the combination of class assocation rules and clustering. One paper used new distance metric wtih clustering on cars but not used for classification which is what our work does. Make it obvious the difference in that other paper used association rules not for classification
+        - find another paper focused on cars and clustering or just cars for classification (after 2019)
+        - DONE: Get number of rules for SPAR, CMAR, CBA
+        - DONE: enlarge table and size of text of distance metric
+        - graph of precision, recall, f1 score per model
+        - DONE: graph of number of rules per model
+        - DONE: bar graph of average accuracy and number of rules side by side per model
+        - line graph of size of dataset vs number of rules foreach model
+            - for datasets: chess, abalone, mushroom, nursery, adult, connect4 
+            - for models: SA, CBA, CPAR, CMAR, our method
+
+    - After taste:
+        - Try to find 2 more datasets and run
+        - find another paper focused on cars and clustering or just cars for classification (after 2019) and add to related works
+        
+
+Meeting Notes 7/17/2023:
+- TODO:
+    - GRAPH: Number of rules graph for airline reviews, airplane, connect4, adult
+    - DONE: Run airplane, airline reviews again + 2 more datasets
+    - GRAPH: bar graph of average accuracy and number of rules side by side per model
+
+    - Add one sentence to abstract about Kaggle datasets
+    - DONE: Add chess and connect4 to table
+
+
+Meeting Notes 7/28/2023:
+    - DONE: Number of rules graph for airline reviews, airplane, connect4, adult
+    - DONE: bar graph of average accuracy and number of rules side by side per model
+    - DONE: Same num rules graph but per dataset model (opposite)
+    - DONE: Change names to ACMMode
+    - DONE: line graph of size of dataset vs number of rules foreach model
+            - for datasets: airline reviews, airplane, connect4, adult, abalone, mushroom, nursery, 
+            - for models: SA, CBA, CPAR, CMAR, our method
+            - NOT GOING TO DO BC UGLLYYY
+    - DONE: Precision, recall, f1 measure averages of datasets
+
+    - Put on github non- altered code
+    - DONE: Rephrase all
+    - DONE: One paragraph for figures: 
+        - our model not sensitive to dataset size while others are
+        - our model produced 10x better on average and better on cba and spar and better on other models 
+        - DONE: on specific datasets performed similiar but with less rules
+    - DONE: Paragrpah on better reuslts on specifc datasets and some better rules and sometimes couldnt
+    - Add one sentence to abstract about each Kaggle datasets
+    

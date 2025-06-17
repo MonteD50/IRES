@@ -1,0 +1,124 @@
+---
+title: "CARModels"
+author: "Monte Davityan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library("arulesCBA")
+library(caret)
+```
+
+
+
+```{r}
+runOtherModels <- function(data_train, data_test, target_class) {
+  formula <- as.formula(paste(target_class, "~ ."))
+  
+  cpar_classifier <- CPAR(formula, data = data_train)
+  cmar_classifier <- CMAR(formula, data = data_train)
+  cba_classifier <- CBA(formula, data = data_train)
+  
+  
+  # Predictions
+  pred_cpar <- predict(cpar_classifier, data_test)
+  pred_cmar <- predict(cmar_classifier, data_test)
+  pred_cba <- predict(cba_classifier, data_test)
+  
+  ## Calculate Accuracy
+  accuracy_cpar <- sum(pred_cpar == data_test[, target_class]) / nrow(data_test)
+  accuracy_cmar <- sum(pred_cmar == data_test[, target_class]) / nrow(data_test)
+  accuracy_cba <- sum(pred_cba == data_test[, target_class]) / nrow(data_test)
+
+  ## Calculate confusion matrix
+  conf_mat_cpar <- table(pred_cpar, data_test[, target_class])
+  conf_mat_cmar <- table(pred_cmar, data_test[, target_class])
+  conf_mat_cba <- table(pred_cba, data_test[, target_class])
+
+  print("CPAR")
+  print(accuracy_cpar)
+  print(conf_mat_cpar)
+  print(cpar_classifier$rules)
+
+  print("CMAR")
+  print(accuracy_cmar)
+  print(conf_mat_cmar)
+  print(cmar_classifier$rules)
+
+  print("CBA")
+  print(accuracy_cba)
+  print(conf_mat_cba)
+  print(cba_classifier$rules)
+
+  return(list(accuracy_cpar, accuracy_cmar, accuracy_cba))
+}
+
+runOtherModels(iris, head(iris), "Species")
+```
+
+
+
+```{r}
+# Adult dataset
+#adult <- read.csv("Adult.csv")
+# Tic-Tac-Toe
+#adult <- read.csv("Tic-Tac-Toe.csv")
+# Car-eval
+#adult <- read.csv("Car-evaluation.csv")
+# Abalone
+#adult <- read.csv("Abalone_final.csv")
+# Chess
+#adult <- read.csv("Chess.csv")
+# Mushroom
+#adult <- read.csv("Mushroom.csv")
+# Nursery
+#adult <- read.csv("Nursary.csv")
+# Laptopt
+#adult <- read.csv("Laptop.csv")
+# Connect4
+
+# Airplane
+#adult <- read.csv("airplane.csv")
+
+# Airline reviews
+#adult <- read.csv("AirlineReviews.csv")
+
+# Diabetes
+#adult <- read.csv("diabetes_data.csv")
+# Placement
+#adult <- read.csv("Placement_Data_Full_Class.csv")
+# Chess
+#adult <- read.csv("Chess.csv")
+# Connect4
+adult <- read.csv("connect4_real.csv")
+
+
+# Convert everything to a factor
+adult[sapply(adult, is.character)] <- lapply(adult[sapply(adult, is.character)], 
+                                       as.factor)
+
+# 10-fold CV
+set.seed(123)
+folds <- createFolds(adult$class_name, k = 2, list = TRUE, returnTrain = FALSE)
+
+# Run runOtherModels for each fold
+accuracies_cpar <- c()
+accuracies_cmar <- c()
+accuracies_cba <- c()
+for (i in 1:length(folds)) {
+  print(i)
+  train <- adult[-folds[[i]], ]
+  test <- adult[folds[[i]], ]
+  res <- runOtherModels(train, test, "class_name")
+  accuracies_cpar <- c(accuracies_cpar, res[[1]])
+  accuracies_cmar <- c(accuracies_cmar, res[[2]])
+  accuracies_cba <- c(accuracies_cba, res[[3]])
+}
+```
+

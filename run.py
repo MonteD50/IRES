@@ -67,7 +67,7 @@ def calculate_accuracy(actual: list, predicted_df: pd.DataFrame):
                   if row[col] != row['prediction_count']:
                       is_same = False 
           if is_same:
-              print("Is same:", row['prediction_count'], row['prediction_count_for_spec_prior'], row['prediction_count_for_priority'], row['prediction_count_for_not_recom'])
+              #print("Is same:", row['prediction_count'], row['prediction_count_for_spec_prior'], row['prediction_count_for_priority'], row['prediction_count_for_not_recom'])
               correct += 1
 
         count += 1  
